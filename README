@@ -1,0 +1,46 @@
+NAME
+    Catalyst::Controller::MovableType - Run Movable Type through Catalyst
+
+SYNOPSIS
+    package MyApp::Controller::Mt;
+
+    use Moose; BEGIN {extends 'Catalyst::Controller::MT'; } use utf8;
+
+    1;
+
+INSTALLATION
+    Install Movable Type by extracting the zip into your template root
+    directory. Move mt-static to root/static/mt, and configure Movable Type
+    accordingly.
+
+DESCRIPTION
+    Runs Movable Type 5 through Catalyst. Download Movable Type 5 from
+    http://www.movabletype.org/
+
+METHODS
+  run_mt_script
+    Runs the requested Movable Type .cgi script transparently with
+    cgi_to_response.
+
+  not_found
+    Sets the response to a simple 404 Not found page. You can override this
+    method with your own.
+
+BUGS
+    None known.
+
+SEE ALSO
+    Catalyst::Controller::WrapCGI
+
+AUTHOR
+    Oskari 'Okko' Ojala <perl@okko.net>
+
+CONTRIBUTORS
+    Matt S. Trout <mst@shadowcatsystems.co.uk>
+
+COPYRIGHT & LICENSE
+    Copyright 2010 the above author(s).
+
+    This sofware is free software, and is licensed under the same terms as
+    Perl itself.
+
