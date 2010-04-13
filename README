@@ -2,11 +2,13 @@ NAME
     Catalyst::Controller::MovableType - Run Movable Type through Catalyst
 
 SYNOPSIS
-    package MyApp::Controller::Mt;
+     package MyApp::Controller::Mt;
 
-    use Moose; BEGIN {extends 'Catalyst::Controller::MT'; } use utf8;
+     use Moose;
+     BEGIN {extends 'Catalyst::Controller::MovableType'; }
+     use utf8;
 
-    1;
+     1;
 
 INSTALLATION
     Install Movable Type by extracting the zip into your template root

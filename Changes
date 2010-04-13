@@ -1,3 +1,8 @@
+0.002
+        2010-04-13
+        Fixed Makefile.pl to require Catalyst::Controller::WrapCGI.
+        Fixed documentation, module name is MovableType, not MT.
+
 0.001
         2010-02-16
         Initial release.

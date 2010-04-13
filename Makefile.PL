@@ -1,7 +1,7 @@
 use strict;
 use warnings;
-use inc::Module::Install 0.91;
 use if $Module::Install::AUTHOR, 'Module::Install::AuthorRequires';
+use inc::Module::Install 0.91;
 use Module::Install::AuthorTests;
 
 name 'Catalyst-Controller-MovableType';
@@ -9,6 +9,7 @@ all_from 'lib/Catalyst/Controller/MovableType.pm';
 
 requires 'Moose';
 requires 'namespace::autoclean';
+requires 'Catalyst::Controller::WrapCGI';
 
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';

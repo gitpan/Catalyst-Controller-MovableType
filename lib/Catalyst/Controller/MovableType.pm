@@ -4,7 +4,7 @@ BEGIN { extends 'Catalyst::Controller::WrapCGI'; }
 use utf8;
 use namespace::autoclean;
 
-our $VERSION = 0.001;
+our $VERSION = 0.002;
 
 has 'perl' => (is => 'rw', default => 'perl');
 
@@ -63,13 +63,13 @@ Catalyst::Controller::MovableType - Run Movable Type through Catalyst
 
 =head1 SYNOPSIS
 
-package MyApp::Controller::Mt;
+ package MyApp::Controller::Mt;
 
-use Moose;
-BEGIN {extends 'Catalyst::Controller::MT'; }
-use utf8;
+ use Moose;
+ BEGIN {extends 'Catalyst::Controller::MovableType'; }
+ use utf8;
 
-1;
+ 1;
 
 =head1 INSTALLATION
 

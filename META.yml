@@ -21,9 +21,10 @@ no_index:
     - inc
     - t
 requires:
+  Catalyst::Controller::WrapCGI: 0
   Moose: 0
   namespace::autoclean: 0
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://somewhere.com/myproject.git
-version: 0.001
+version: 0.002
