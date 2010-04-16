@@ -4,14 +4,21 @@ BEGIN { extends 'Catalyst::Controller::WrapCGI'; }
 use utf8;
 use namespace::autoclean;
 
-our $VERSION = 0.002;
+our $VERSION = 0.003;
 
 has 'perl' => (is => 'rw', default => 'perl');
 
 has 'mt_home' => (is => 'rw'); # /my/app/root/mt/
 
-sub run_mt_script :Path {
-    my ($self, $c, $cgi_script) = @_;
+# Use chaining here, so that Catalyst::Controller::WrapCGI::wrap_cgi can properly
+# populate $ENV{SCRIPT_NAME} with $c->uri_for($c->action, $c->req->captures)->path,
+# so that MovableType can then extract the correct path of location.
+sub capture_mt_script :Chained('/') :PathPart('mt') :CaptureArgs(1) { }
+ 
+sub run_mt_script :Chained('capture_mt_script') :PathPart('') :Args {
+    my ($self, $c) = @_;
+    my $captures = $c->req->captures;
+    my $cgi_script = $captures->[0];
 
     my %mt_scripts
         = map +($_ => 1),
@@ -37,7 +44,7 @@ sub run_mt_script :Path {
     # Allow it only in debug mode.
     $mt_scripts{'mt_check.cgi'} = 1 if ($c->debug());
 
-    $self->not_found() unless ($mt_scripts{$cgi_script});
+    $self->not_found($c) unless ($mt_scripts{$cgi_script});
 
     $ENV{MT_HOME} = $self->mt_home;
 
@@ -61,6 +68,11 @@ __END__
 
 Catalyst::Controller::MovableType - Run Movable Type through Catalyst
 
+=head1 DESCRIPTION
+
+Runs Movable Type 5 through Catalyst.
+Download Movable Type 5 from http://www.movabletype.org/
+
 =head1 SYNOPSIS
 
  package MyApp::Controller::Mt;
@@ -74,14 +86,46 @@ Catalyst::Controller::MovableType - Run Movable Type through Catalyst
 =head1 INSTALLATION
 
 Install Movable Type by extracting the zip into your template root directory.
-Move mt-static to root/static/mt, and configure Movable Type accordingly.
+Move mt-static to root/static/mt. See Synopsis on how to inherit the Controller
+in your app. Presuming you installed Movable Type into root/mt, in your App's
+config add:
 
-=head1 DESCRIPTION
+<Controller::Root>
+    cgi_root_path mt/
+    cgi_dir mt/
+</Controller::Root>
+<Controller::Mt>
+    mt_home = /full/path/to/MyApp/root/mt/
+    <actions>
+        <capture_script_name>
+            PathPart = mt
+        </capture_script_name>
+    </actions>
+</Controller::Mt>
 
-Runs Movable Type 5 through Catalyst.
-Download Movable Type 5 from http://www.movabletype.org/
+The cgi_* directives are always given for the Root controller, no matter what
+the Root controller is.
+
+You can modify the path where the script matches by configuring the PathPart as
+shown above. This controller defaults to match on the path "/mt".
+
+Finally, make sure that the Static::Simple doesn't affect the Movable Type's
+installation directory. An example:
+
+__PACKAGE__->config(
+    name => 'TerveinkansaFi',
+                     static => {
+                        # first ignore all extensions, then specify static directories!
+                        'ignore_extensions' => [ qr/.*/ ],
+                        'dirs' => [ qw/static/ ]
+                        }
+);
 
 =head1 METHODS
+
+=head2 capture_mt_script
+
+Captures the path of the Movable Type.
 
 =head2 run_mt_script
 

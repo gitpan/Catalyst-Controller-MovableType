@@ -1,6 +1,10 @@
 NAME
     Catalyst::Controller::MovableType - Run Movable Type through Catalyst
 
+DESCRIPTION
+    Runs Movable Type 5 through Catalyst. Download Movable Type 5 from
+    http://www.movabletype.org/
+
 SYNOPSIS
      package MyApp::Controller::Mt;
 
@@ -12,14 +16,33 @@ SYNOPSIS
 
 INSTALLATION
     Install Movable Type by extracting the zip into your template root
-    directory. Move mt-static to root/static/mt, and configure Movable Type
-    accordingly.
+    directory. Move mt-static to root/static/mt. See Synopsis on how to
+    inherit the Controller in your app. Presuming you installed Movable Type
+    into root/mt, in your App's config add:
 
-DESCRIPTION
-    Runs Movable Type 5 through Catalyst. Download Movable Type 5 from
-    http://www.movabletype.org/
+    <Controller::Root> cgi_root_path mt/ cgi_dir mt/ </Controller::Root>
+    <Controller::Mt> mt_home = /full/path/to/MyApp/root/mt/ <actions>
+    <capture_script_name> PathPart = mt </capture_script_name> </actions>
+    </Controller::Mt>
+
+    The cgi_* directives are always given for the Root controller, no matter
+    what the Root controller is.
+
+    You can modify the path where the script matches by configuring the
+    PathPart as shown above. This controller defaults to match on the path
+    "/mt".
+
+    Finally, make sure that the Static::Simple doesn't affect the Movable
+    Type's installation directory. An example:
+
+    __PACKAGE__->config( name => 'TerveinkansaFi', static => { # first
+    ignore all extensions, then specify static directories!
+    'ignore_extensions' => [ qr/.*/ ], 'dirs' => [ qw/static/ ] } );
 
 METHODS
+  capture_mt_script
+    Captures the path of the Movable Type.
+
   run_mt_script
     Runs the requested Movable Type .cgi script transparently with
     cgi_to_response.

@@ -1,3 +1,12 @@
+0.003
+        2010-04-xx
+        Fixed internal not_found call to properly pass $c when an unexisting
+        script was requested.
+
+        Implemented chaining so that Catalyst::Controller::WrapCGI::wrap_cgi
+        can properly populate $ENV{SCRIPT_NAME} with
+        $c->uri_for($c->action, $c->req->captures)->path                                                                                     
+
 0.002
         2010-04-13
         Fixed Makefile.pl to require Catalyst::Controller::WrapCGI.
