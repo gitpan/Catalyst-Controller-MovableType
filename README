@@ -20,10 +20,18 @@ INSTALLATION
     inherit the Controller in your app. Presuming you installed Movable Type
     into root/mt, in your App's config add:
 
-    <Controller::Root> cgi_root_path mt/ cgi_dir mt/ </Controller::Root>
-    <Controller::Mt> mt_home = /full/path/to/MyApp/root/mt/ <actions>
-    <capture_script_name> PathPart = mt </capture_script_name> </actions>
-    </Controller::Mt>
+     <Controller::Root>
+         cgi_root_path mt/
+         cgi_dir mt/
+     </Controller::Root>
+     <Controller::Mt>
+         mt_home = /full/path/to/MyApp/root/mt/
+         <actions>
+             <capture_mt_script>
+                 PathPart = mt
+             </capture_mt_script>
+         </actions>
+     </Controller::Mt>
 
     The cgi_* directives are always given for the Root controller, no matter
     what the Root controller is.
@@ -35,9 +43,14 @@ INSTALLATION
     Finally, make sure that the Static::Simple doesn't affect the Movable
     Type's installation directory. An example:
 
-    __PACKAGE__->config( name => 'TerveinkansaFi', static => { # first
-    ignore all extensions, then specify static directories!
-    'ignore_extensions' => [ qr/.*/ ], 'dirs' => [ qw/static/ ] } );
+     __PACKAGE__->config(
+         name => 'MyApp',
+         static => {
+             # first ignore all extensions, then specify static directories!
+             'ignore_extensions' => [ qr/.*/ ],
+             'dirs' => [ qw/static/ ]
+         }
+     );
 
 METHODS
   capture_mt_script

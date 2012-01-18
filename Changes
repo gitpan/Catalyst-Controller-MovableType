@@ -1,5 +1,9 @@
+0.004   2012-01-18
+        Fixed documentation: Indentation of configurations.
+        Fixed documentation: Tag name capture_script_name fixed to capture_mt_script.
+
 0.003
-        2010-04-xx
+        2010-04-16
         Fixed internal not_found call to properly pass $c when an unexisting
         script was requested.
 

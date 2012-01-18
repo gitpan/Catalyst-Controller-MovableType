@@ -20,7 +20,7 @@ author_requires 'Test::Pod' => '1.14';
 
 author_tests 't/author';
 
-resources repository => 'git://somewhere.com/myproject.git';
+resources repository => 'ssh://catagits@git.shadowcat.co.uk/Catalyst-Controller-MovableType.git';
 
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Catalyst/Controller/MovableType.pm > README")
